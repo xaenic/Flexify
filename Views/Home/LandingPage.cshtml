@@ -35,14 +35,23 @@
             </div>
         </div>
     </section>
-    <section class="bg-[#F5F5F5] h-screen flex justify-center">
-        <div class="container text-black text-center p-40">
+    <section id="section2" class="bg-[#F5F5F5] h-screen flex  justify-center p-10 pt-20">
+        <div class="container text-black text-center items-center mt-28 leading-2 flex flex-col gap-4">
             <h3 class="font-bold text-5xl ">Turn your Link In Bio into your own mini-website</h3>
-            <p class="text-gray-800 text-xl">
+            <p class="max-w-2xl text-center text-gray-800 text-xl leading-2">
                 It takes seconds to turn your bio into a mini website, allowing your followers to engage with your content,
                 discover you on other platforms or purchase and support you with just one simple link.
             </p>
-        </div>  
+
+           
+        </div>
+
+        <div id="tilt-image" style=" transition: transform 0.2s ease-out;" class="mt-10 flex justify-center h-[580px] w-[580px]  relative " >
+            <img style=" transition: transform 0.2s ease-out;" src="/images/tilt1/main.png" class="transition-all  h-[540px]  absolute z-10" />
+            <img style=" transition: transform 0.2s ease-out;" src="/images/tilt1/email_subs.png" class="transition-all h-60 left-0 bottom-56  absolute z-20" />
+            <img style=" transition: transform 0.2s ease-out;" src="/images/tilt1/picture.png" class="transition-all h-72  bottom-0 right-0  absolute z-20" />
+        </div>
+       
     </section>
     <section class="bg-[#3C153B] h-screen flex justify-between items-center">
         <div class="container text-white w-1/2">
@@ -91,5 +100,32 @@
                 'top': mouseY
             });
         });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('body').mousemove(function (e) {
+            const container = $('#tilt-image');
+            const containerOffset = container.offset();
+            const containerWidth = container.width();
+            const containerHeight = container.height();
+
+            const xOffset = (e.pageX - containerOffset.left) / containerWidth - 0.5;
+            const yOffset = (e.pageY - containerOffset.top) / containerHeight - 0.5;
+            const tiltAmount = 20; // adjust this value for desired tilt intensity
+
+            const tiltX = ((yOffset * tiltAmount).toFixed(2)) * -1 +10;
+            const tiltY = ((-xOffset * tiltAmount).toFixed(2)) * -1 + 10;
+
+            container.css('transform', `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`);
+            container.find('img').css('transform', `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`);
+
+
+            image.css('transform', `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`);
+        });
+
+        // Reset the tilt effect when the mouse leaves the image
+    
     });
 </script>
