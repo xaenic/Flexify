@@ -2,5 +2,66 @@
     ViewData["Title"] = "LandingPage";
 }
 
-<h1>LandingPage</h1>
 
+<style>
+    .glowing-circle {
+        -webkit-box-shadow: 0px 0px 287px 105px rgba(121,113,227,0.9);
+        -moz-box-shadow: 0px 0px 287px 105px rgba(121,113,227,0.9);
+        box-shadow: 0px 0px 287px 105px rgba(121,113,227,0.9);
+    }
+</style>
+<main class="relative bg-gray-950 ">
+        <nav class="z-10 sticky inset-0 top-4 w-[95%] sm:w-[90%] mx-auto bg-gray-700 bg-opacity-20 backdrop-blur-lg font-medium text-white flex justify-between gap-4  max-w-7xl items-center rounded-full text-lg  h-14 p-10 overflow-hidden">
+            <div>
+                <a href="/">Flexify</a>
+            </div>
+            <ul class="flex items-center gap-4">
+                <li><a href="/home">Home</a></li>
+                <li><a href="/home">Contact</a></li>
+                <li><a href="/home">About</a></li>
+                <li><a href="/home">Home</a></li>
+            </ul>
+        </nav>
+    <section id="mainSection" class="bg-gray-950 h-screen p-10 relative">
+        <div class="container mx-auto text-white flex flex-col h-full p-20 pt-32 relative">
+           
+            <div id="moveableDiv" class="glowing-circle absolute bg-opacity-[0.2]   h-20  rounded-full transition-all ease-out"></div>
+            <div class="flex flex-col gap-4">
+                <h1 class="text-4xl font-bold">Craft Your Digital Identity</h1>
+                <p>Craft your unique profile page that truly reflects you.</p>
+               <div>
+                    <a href="" class="bg-[#E9E3B4] p-2 rounded-lg">Get Started</a>
+               </div>
+            </div>
+        </div>
+    </section>
+    <section class="bg-[#DB4C40] h-screen flex justify-center">
+        <div class="container text-white">
+            asd
+        </div>
+    </section>
+    <section class="bg-[#3C153B] h-screen">
+        <div class="container">
+        </div>
+    </section>
+    
+</main>
+
+
+
+
+<script>
+    $(document).ready(function() {
+        
+        $('#mainSection').mousemove(function (e) {
+            var mouseX = e.pageX;
+            var mouseY = e.pageY;
+
+            // Adjust position of moveable div
+            $('#moveableDiv').css({
+                'left': mouseX,
+                'top': mouseY
+            });
+        });
+    });
+</script>
