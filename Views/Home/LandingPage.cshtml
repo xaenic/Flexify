@@ -10,7 +10,7 @@
         box-shadow: 0px 0px 287px 105px rgba(121,113,227,0.9);
     }
 </style>
-<main class="relative bg-gray-950 ">
+<main class="relative bg-gray-950 overflow-hidden ">
         <nav class="z-10 sticky inset-0 top-4 w-[95%] sm:w-[90%] mx-auto bg-gray-700 bg-opacity-20 backdrop-blur-lg font-medium text-white flex justify-between gap-4  max-w-7xl items-center rounded-full text-lg  h-14 p-10 overflow-hidden">
             <div>
                 <a href="/">Flexify</a>
@@ -25,7 +25,7 @@
     <section id="mainSection" class=" bg-fixed bg-gray-950 h-screen p-10 relative overflow-hidden">
         <div class="container mx-auto text-white flex flex-col h-full p-20 pt-32 relative">
            
-            <div id="moveableDiv" class="glowing-circle absolute bg-opacity-[0.2] opacity-0   h-20  rounded-full transition-all ease-out"></div>
+            <div id="moveableDiv" style=" transition: transform 0.2s ease-out;" class="glowing-circle absolute bg-opacity-[0.2] opacity-0   h-20  rounded-full transition-all ease-out"></div>
             <div class="flex flex-col gap-4">
                 <h1 class="text-4xl font-bold">Craft Your Digital Identity</h1>
                 <p>Craft your unique profile page that truly reflects you.</p>
@@ -85,11 +85,10 @@
 
 
 
-<script>
-    $(document).ready(function() {
-        
-        $('#mainSection').mousemove(function (e) {
 
+<script>
+    $(document).ready(function () {
+        $('body').mousemove(function (e) {
             var mouseX = e.pageX;
             var mouseY = e.pageY;
 
@@ -99,13 +98,6 @@
                 'left': mouseX,
                 'top': mouseY
             });
-        });
-    });
-</script>
-
-<script>
-    $(document).ready(function () {
-        $('body').mousemove(function (e) {
             const container = $('#tilt-image');
             const containerOffset = container.offset();
             const containerWidth = container.width();
