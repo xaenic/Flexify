@@ -15,7 +15,30 @@
         </main>
     </div>
 
-  
+    <script>
+        $(document).ready(function () {
+            var gridContainer = $('#grid-container');
+
+            // Loop through columns
+            for (var columnIndex = 0; columnIndex < 24; columnIndex++) {
+                var column = $('<div>').addClass('flex flex-col justify-evenly text-black');
+
+                // Loop through rows
+                for (var rowIndex = 0; rowIndex < 24; rowIndex++) {
+                    // Calculate opacity based on distance from the center
+                    var distanceToCenter = Math.abs(columnIndex - 5.5) + Math.abs(rowIndex - 5.5);
+                    var opacity = Math.min(1, distanceToCenter * 0.1);
+
+                    // Create and append row element
+                    var row = $('<div>').addClass('h-[60px] rounded-md rounde-t-md bg-white border-gray-100 border transition-opacity duration-500 ease-in-out').css('opacity', opacity);
+                    column.append(row);
+                }
+
+                // Append column to grid container
+                gridContainer.append(column);
+            }
+        });
+    </script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
