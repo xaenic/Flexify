@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Flexify.Models;
+using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Core.Types;
 
 namespace Flexify.Controllers
 {
@@ -12,9 +14,23 @@ namespace Flexify.Controllers
         {
             return View();
         }
+        [HttpGet]
         public IActionResult Register()
         {
             return View();
+        }
+        [HttpPost]
+        public ViewResult Register(UserModel user)
+        {
+            if(!ModelState.IsValid) {
+
+                return View();
+            }
+
+            return View();
+
+            
+           
         }
     }
 }

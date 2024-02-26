@@ -1,4 +1,5 @@
-﻿@{
+﻿@model UserModel;
+@{
     ViewData["Title"] = "Register";
 }
 
@@ -15,36 +16,46 @@
                     <h1 class="text-4xl font-bold text-center">Join Flexify</h1>
                     <p class="text-center text-slate-600">Sign up for free</p>
                 </div>
-              
-                <form class="md:mt-10 w-full flex flex-col gap-4 p-2">
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-zinc-200 p-4 rounded-lg text-black flex gap-3">
+               
+                <form asp-action="Register" method="post" class="md:mt-10 w-full flex flex-col gap-7 p-2">
+                    <div class="grid grid-cols-2 gap-4 ">
+                        <div class="relative">
+                            <span asp-validation-for="FirstName" class="text-red-600 absolute text-danger top-[-22px]"></span>
+                             <div class="bg-zinc-200 p-4 rounded-lg text-black flex gap-3 ">
+                          
                             <img src="/images/user.svg" />
-                            <input type="email" required placeholder="First Name" class="w-full bg-transparent  outline-none border-none" />
+                            
+                            <input asp-for="FirstName" type="email"  placeholder="First Name" class="w-full bg-transparent  outline-none border-none" />
                         </div>
-                        <div class="bg-zinc-200 p-4 rounded-lg text-black flex gap-3">
-                            <img src="/images/user.svg" />
-                            <input type="email" required placeholder="Last Name" class="w-full bg-transparent  outline-none border-none" />
                         </div>
+                       
+                        <div class="relative">
+                            <span asp-validation-for="FirstName" class="text-red-600 absolute text-danger top-[-22px]"></span>
+                            <div class="bg-zinc-200 p-4 rounded-lg text-black flex gap-3 ">
+                             
+                                <img src="/images/user.svg" />
+                                <input asp-for="LastName" type="email" placeholder="Last Name" class="w-full bg-transparent  outline-none border-none" />
+                            </div>
+                        </div>
+                       
 
                     </div>
-                    <div>
-
-                        <div class="bg-zinc-200 p-4 rounded-lg text-black  flex gap-3">
+                    <div class="relative">
+                        <span asp-validation-for="email" class="text-red-600 absolute text-danger top-[-22px]"></span>
+                        <div class="bg-zinc-200 p-4 rounded-lg text-black  flex gap-3 ">
+                           
                             <img src="/images/lock.svg" />
-                            <input type="email" required placeholder="Email Address" class="w-full bg-transparent  outline-none border-none" />
+                            <input asp-for="email" type="email"  placeholder="Email Address" class="w-full bg-transparent  outline-none border-none" />
                         </div>
 
                     </div>
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class=" relative gap-4">
+                        <span asp-validation-for="password" class="text-red-600 absolute text-danger top-[-22px]"></span>
                         <div class="bg-zinc-200 p-4 rounded-lg text-black flex gap-3">
                             <img src="/images/user.svg" />
-                            <input type="password" required placeholder="Password" class="w-full bg-transparent  outline-none border-none" />
+                            <input asp-for="password" type="password"  placeholder="Password" class="w-full bg-transparent  outline-none border-none" />
                         </div>
-                        <div class="bg-zinc-200 p-4 rounded-lg text-black flex gap-3">
-                            <img src="/images/user.svg" />
-                            <input type="password" required placeholder="Confirm Password" class="w-full bg-transparent  outline-none border-none" />
-                        </div>
+                       
 
                     </div>
                    
