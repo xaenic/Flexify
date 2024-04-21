@@ -1,14 +1,30 @@
-﻿@{
+﻿@model UserModel
+@{
     ViewData["Title"] = "Dashboard";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["Success"]
+    <nav class="mt-10 z-10 sticky inset-0 top-4 w-[95%] sm:w-[90%] mx-auto bg-gray-700 text-medium text-white flex justify-between gap-4 items-center rounded-full text-sm h-14 p-10 overflow-hidden max-w-4xl">
+        <div class="flex gap-4">
+            <a href="/">Flexify</a>
+            <ul class="flex items-center gap-4">
+                <li><a href="/app">Home</a></li>
+                <li><a href="/home">Appearance</a></li>
+            </ul> 
         </div>
-    }
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+        <div class="flex gap-2  items-center">
+            <span>
+                <i class="fa-solid fa-gear "></i>
+                <a href="/app/account">Settings</a>
+            </span>
+            <span>
+                <i class="fa-solid fa-right-from-bracket "></i>
+                <a href="/auth/logout">Logout</a>
+            </span>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto flex justify-center mt-10">
+        <h1 class="font-semibold text-xl">Welcome @Model.FirstName @Model.LastName!</h1>
+    </div>
 </div>

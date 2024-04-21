@@ -14,15 +14,29 @@
           <li><a href="/home">Appearance</a></li>
         </ul>
       </div>
-      <span><a href="/Login">Logout</a></span>
+        <div class="flex gap-2  items-center">
+            <span>
+                <i class="fa-solid fa-gear "></i>
+                <a href="./account">Settings</a>
+            </span>
+            <span>
+                <i class="fa-solid fa-right-from-bracket "></i>
+                <a href="/auth/logout">Logout</a>
+            </span>
+        </div>
     </nav>
     <main class="w-full mt-10 mx-auto max-w-4xl">
       <div class="">
         <h1 class="text-lg font-semibold">Profile</h1>
             @if (TempData["Success"] != null)
-            {
-                <div class="alert alert-success">
+            { <div class="text-center text-green-500 mb-3">
                     @TempData["Success"]
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="text-center text-red-500 mb-3">
+                    @TempData["Error"]
                 </div>
             }
         <form asp-action="Account" method="post" class="border border-gray-200 p-5 rounded-md">

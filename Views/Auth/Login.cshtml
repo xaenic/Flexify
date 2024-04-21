@@ -17,17 +17,12 @@
                     <p class="text-center text-slate-600">Login to your Flexify</p>
                     @if (TempData["Error"] != null)
                     {
-                        <div class="alert alert-success">
+                        <div class="alert alert-success text-red-500 text-center">
                             @TempData["Error"]
                         </div>
                     }
                 </div>
-                
-                @if(Model != null){
-                    <div class="alert alert-success">
-                        @Model.Email
-                    </div>
-                }
+               
                 <form asp-action="Login" method="post" class="md:mt-10 w-full flex flex-col gap-4 p-2">
                     <div class="relative">
                         <span asp-validation-for="Email" class="text-red-600 absolute text-danger top-[-22px]"></span>

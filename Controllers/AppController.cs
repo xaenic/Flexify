@@ -16,8 +16,21 @@ namespace Flexify.Controllers
             this.dbContext = dbContext;
         }
         public IActionResult Index()
+
         {
-            return View("Index");
+            ClaimsPrincipal claimUser = HttpContext.User;
+            var userClaim = claimUser.FindFirst("UserId");
+            int userId = 1;
+            UserModel? user = new UserModel();
+            if (userClaim != null)
+            {
+                if (int.TryParse(userClaim.Value, out userId))
+                {
+                    user = dbContext.Users.FirstOrDefault(u => u.Id == userId);
+                    return View(user);
+                }
+            }
+            return View(user);
         }
         [HttpGet]
         public IActionResult Account()
@@ -46,6 +59,7 @@ namespace Flexify.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["Error"] = "Enter Your Password!";
                 return View(user);
             }
 
@@ -70,6 +84,13 @@ namespace Flexify.Controllers
                 return NotFound();
             }
 
+            if(userUpdate.Password != user.Password)
+            {
+                TempData["Error"] = "Incorrect Password";
+                return View(user);
+            }
+
+                
             userUpdate.FirstName = user.FirstName;
             userUpdate.LastName = user.LastName;
             userUpdate.Email = user.Email;
