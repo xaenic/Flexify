@@ -5,7 +5,5 @@
     [email] NVARCHAR(50) NULL,
     [password] NVARCHAR(50) NULL,
     [username] NVARCHAR(50) NULL, 
-    [createdAt] DATETIME2 DEFAULT GETDATE(), 
-    [updatedAt] DATETIME2 NULL, 
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
