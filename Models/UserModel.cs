@@ -12,7 +12,7 @@ namespace Flexify.Models
         [Required(ErrorMessage = "Please enter username")]
         public string? Username { get; set; }
         [Required(ErrorMessage = "Please enter your email address.")]
-        public string? Email { get; set; }
+        public string Email { get; set; }
         [Required(ErrorMessage = "Please enter your password.")]
         public string? Password { get; set; }
     }
