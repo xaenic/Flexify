@@ -1,5 +1,7 @@
 ﻿using Flexify.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using NuGet.Protocol.Core.Types;
 using System.Data.SqlClient;
 
@@ -16,10 +18,42 @@ namespace Flexify.Controllers
         {
             return View();
         }
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(UserModel user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var users = await dbContext.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+
+            if (users != null)
+            {
+                if (users.Password == user.Password)
+                {
+                    TempData["Error"] = " Password or Email!";
+                }
+                else
+                {
+                    TempData["Error"] = "Wrong Password or Email!";
+                }
+            }
+            else
+            {
+                TempData["Error"] = "Wrong Password or Email!";
+            }
+            
+            return View();
+        }
+
+
         [HttpGet]
         public IActionResult Register()
         {

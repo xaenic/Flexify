@@ -1,9 +1,10 @@
-﻿@{
+﻿@model UserModel
+@{
     ViewData["Title"] = "LandingPage";
 }
 
 <div class=" w-full  gap-10 h-screen">
-  
+
     <div class="flex grid grid-cols-1 md:grid-cols-12 h-full">
         <div class="col-span-8 h-full grid grid-cols-1 md:grid-cols-4 relative overflow-hidden">
             <div class="p-10 pb-0">
@@ -11,36 +12,40 @@
             </div>
             <div class="w-full h-full absolute -z-10 grid grid-cols-12" id="grid-container"></div>
             <div class="md:pt-10 flex-col flex items-center col-span-2 md:mt-20">
-              <div class="flex-col flex gap-4 ">
+                <div class="flex-col flex gap-4 ">
                     <h1 class="text-4xl font-bold text-center">Welcome Back</h1>
                     <p class="text-center text-slate-600">Login to your Flexify</p>
-              </div>
-
-                <form class="md:mt-10 w-full flex flex-col gap-4 p-2">
-                    <div>
-                       
-                        <div class="bg-zinc-300 p-4 rounded-lg text-black flex gap-3">
-                            <img src="/images/user.svg"/>
-                            <input type="email" required placeholder="Email or Username" class="w-full bg-transparent  outline-none border-none"/>
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-success">
+                            @TempData["Error"]
                         </div>
-
+                    }
+                </div>
+              
+                <form asp-action="Login" method="post" class="md:mt-10 w-full flex flex-col gap-4 p-2">
+                    <div class="relative">
+                        <span asp-validation-for="Email" class="text-red-600 absolute text-danger top-[-22px]"></span>
+                        <div class="bg-zinc-200 p-4 rounded-lg text-black flex gap-3 ">
+                            <img src="/images/user.svg" />
+                            <input asp-for="Email" type="email" placeholder="Enter Email" class="w-full bg-transparent  outline-none border-none" />
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <span asp-validation-for="Password" class="text-red-600 absolute text-danger top-[-22px]"></span>
+                        <div class="bg-zinc-200 p-4 rounded-lg text-black flex gap-3 ">
+                            <img src="/images/user.svg" />
+                            <input asp-for="Password" type="password" placeholder="Enter Password" class="w-full bg-transparent  outline-none border-none" />
+                        </div>
                     </div>
                     <div>
-                       
-                        <div class="bg-zinc-300 p-4 rounded-lg text-black  flex gap-3">
-                            <img src="/images/lock.svg" />
-                            <input type="password" required placeholder="Password" class="w-full bg-transparent  outline-none border-none" />
-                        </div>
-
-                    </div>
-                    <div>
-                            <a href="/" class="text-blue-500 font-semibold">Forgot Password?</a>
+                        <a href="/" class="text-blue-500 font-semibold">Forgot Password?</a>
 
                     </div>
                     <div>
 
                         <div class="bg-gradient-to-r from-[#DB4C40] to-[#090C02] p-4 rounded-lg text-white font-bold">
-                            <input type="submit" value="Login"class="cursor-pointer w-full bg-transparent  outline-none border-none" />
+                            <input type="submit" value="Login" class="cursor-pointer w-full bg-transparent  outline-none border-none" />
                         </div>
 
                     </div>
@@ -53,12 +58,12 @@
         </div>
         <div class="bg-black hidden md:grid text-white col-span-4  bg-gray-900  grid-cols-3">
 
-             <div class="h-full bg-[#DB4C40]"></div>
+            <div class="h-full bg-[#DB4C40]"></div>
             <div class="h-full bg-[#090C02]"></div>
-           
+
             <div class="h-full bg-[#3C153B]"></div>
 
         </div>
     </div>
-  
+
 </div>
