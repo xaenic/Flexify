@@ -25,7 +25,7 @@
                           
                             <img src="/images/user.svg" />
                             
-                            <input asp-for="FirstName" type="email"  placeholder="First Name" class="w-full bg-transparent  outline-none border-none" />
+                            <input asp-for="FirstName" type="text"  placeholder="First Name" class="w-full bg-transparent  outline-none border-none" />
                         </div>
                         </div>
                        
@@ -34,7 +34,7 @@
                             <div class="bg-zinc-200 p-4 rounded-lg text-black flex gap-3 ">
                              
                                 <img src="/images/user.svg" />
-                                <input asp-for="LastName" type="email" placeholder="Last Name" class="w-full bg-transparent  outline-none border-none" />
+                                <input asp-for="LastName" type="text" placeholder="Last Name" class="w-full bg-transparent  outline-none border-none" />
                             </div>
                         </div>
                        
@@ -73,7 +73,7 @@
                 </form>
                 <div class="flex flex-col items-center">
                     <span>Or</span>
-                    <a class="text-blue-600" href="/Auth/Register">Don't Have an Account ? </a>
+                    <a class="text-blue-600" href="/auth/login">Already Have an Account ? </a>
                 </div>
             </div>
         </div>
