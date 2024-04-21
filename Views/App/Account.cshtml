@@ -102,6 +102,13 @@
             </div>
           </div>
         </form>
+            <div class="flex justify-end gap-3 mt-5">
+                <form asp-action="DeleteAccount" method="post">
+                    <button type="submit" class="bg-red-500 text-white px-3 p-2 rounded-md">Delete Account</button>
+                </form>
+                <span class="text-blue-500 text-sm">Deleting your account is irreversible.</span>
+            </div>
       </div>
+       
     </main>
 </div>

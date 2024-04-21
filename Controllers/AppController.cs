@@ -17,7 +17,7 @@ namespace Flexify.Controllers
         [HttpGet]
         public IActionResult Account()
         {
-            int userId = 1;
+            int userId = 3;
             var user = dbContext.Users.FirstOrDefault(u => u.Id == userId);
 
             return View(user);
@@ -30,7 +30,7 @@ namespace Flexify.Controllers
                 return View(user);
             }
 
-            int userId = 1;
+            int userId = 3;
 
             var userUpdate = dbContext.Users.FirstOrDefault(u => u.Id == userId);
             if (userUpdate == null)
@@ -40,7 +40,7 @@ namespace Flexify.Controllers
             }
 
             userUpdate.FirstName = user.FirstName;
-            userUpdate.LastName = user.LastName;    
+            userUpdate.LastName = user.LastName;
             userUpdate.Email = user.Email;
             userUpdate.Username = user.Username;
 
@@ -48,5 +48,32 @@ namespace Flexify.Controllers
             dbContext.SaveChanges();
             return View(user);
         }
+        [HttpGet]
+        public IActionResult DeleteAccount()
+        {
+            int userId = 3;
+            var user = dbContext.Users.FirstOrDefault(u => u.Id == userId);
+
+            return View();
+        }
+        [HttpPost]
+        public IActionResult DeleteAccount(UserModel user)
+        {
+            int userId = 3; // Assuming you have a way to identify the current user
+            var users = dbContext.Users.FirstOrDefault(u => u.Id == userId);
+
+            if (users == null)
+            {
+                return NotFound();
+            }
+
+            dbContext.Users.Remove(users);
+            dbContext.SaveChanges();
+            TempData["Success"] = "Deleted successfully!";
+            return RedirectToAction("Register", "Auth"); // Redirect to the home page or any other appropriate page
+        }
+
+
+
     }
-}
+    }
