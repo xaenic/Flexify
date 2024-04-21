@@ -1,0 +1,107 @@
+﻿@model UserModel;
+
+@{
+    ViewData["Title"] = "Account Page";
+}
+<div>
+<nav
+      class="mt-10 z-10 sticky inset-0 top-4 w-[95%] sm:w-[90%] mx-auto bg-gray-700 text-medium text-white flex justify-between gap-4 items-center rounded-full text-sm h-14 p-10 overflow-hidden max-w-4xl"
+    >
+      <div class="flex gap-4">
+        <a href="/">Flexify</a>
+        <ul class="flex items-center gap-4">
+          <li><a href="/app">Home</a></li>
+          <li><a href="/home">Appearance</a></li>
+        </ul>
+      </div>
+      <span><a href="/Login">Logout</a></span>
+    </nav>
+    <main class="w-full mt-10 mx-auto max-w-4xl">
+      <div class="">
+        <h1 class="text-lg font-semibold">Profile</h1>
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["Success"]
+                </div>
+            }
+        <form asp-action="Account" method="post" class="border border-gray-200 p-5 rounded-md">
+          <div class="flex gap-4 items-center">
+            <div
+              class="shrink-0 bg-gray-700 w-24 h-24 rounded-full flex items-center justify-center text-white"
+            >
+              K
+            </div>
+            <div class="w-full flex flex-col gap-4">
+              <div
+                class="font-medium border border-gray-300 px-3 p-4 rounded-md w-full text-center"
+              >
+                Add a picture
+              </div>
+              <div
+                class="bg-gray-700 text-white border border-gray-300 px-3 p-4 rounded-md w-full text-center"
+              >
+                Remove picture
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3 mt-5">
+            <div class="grid grid-cols-2 gap-3">
+              <div class="bg-gray-200 p-2 rounded-md flex flex-col items-start">
+                <label class="text-xs">First Name</label>
+                <input asp-for="FirstName"
+                  type="text"
+                  class="bg-transparent text-sm w-full"
+                  value="@Model.FirstName"
+                />
+              </div>
+              <div class="bg-gray-200 p-2 rounded-md flex flex-col items-start">
+                <label class="text-xs">Last Name</label>
+                <input asp-for="LastName"
+                  type="text"
+                  class="bg-transparent text-sm w-full"
+                                   value="@Model.LastName" />
+              </div>
+            </div>
+            <div class="bg-gray-200 p-2 rounded-md flex flex-col items-start">
+              <label class="text-xs">Username</label>
+              <input asp-for="Username"
+                type="text"
+                class="bg-transparent text-sm w-full"
+                value="@Model.Username"
+              />
+            </div>
+            <div class="bg-gray-200 p-2 rounded-md flex flex-col items-start">
+              <label class="text-xs">Email</label>
+              <input asp-for="Email"
+                type="text"
+                class="bg-transparent text-sm w-full"
+                value="@Model.Email"
+              />
+            </div>
+            <div class="bg-gray-200 p-2 rounded-md flex flex-col items-start">
+              <label class="text-xs">Enter Password</label>
+              <input asp-for="Password"
+                type="text"
+                class="bg-transparent text-sm w-full"
+                value=""
+                placeholder=""
+              />
+                        <span asp-validation-for="Password" class="text-red-600 absolute text-danger top-[-22px]"></span>
+            </div>
+            <div class="">
+              <span class="text-blue-500 text-sm"
+                >Enter password to save changes</span
+              >
+            </div>
+            <div class="flex justify-end">
+              <button class="bg-blue-500 text-white px-3 p-2 rounded-md">
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </main>
+</div>

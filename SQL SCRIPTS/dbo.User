@@ -1,9 +1,10 @@
-﻿CREATE TABLE [dbo].[user] (
-    [Id] INT IDENTITY (1, 1) NOT NULL,
-    [firstName] NVARCHAR(50) NULL,
-    [lastName] NVARCHAR(50) NULL,
-    [email] NVARCHAR(50) NULL,
-    [password] NVARCHAR(50) NULL,
-    [username] NVARCHAR(50) NULL, 
+﻿CREATE TABLE [dbo].[users] (
+    [Id]        INT           IDENTITY (1, 1) NOT NULL,
+    [firstName] NVARCHAR (50) NULL,
+    [lastName]  NVARCHAR (50) NULL,
+    [email]     NVARCHAR (50) NULL,
+    [password]  NVARCHAR (50) NULL,
+    [username]  NVARCHAR (50) NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
+
