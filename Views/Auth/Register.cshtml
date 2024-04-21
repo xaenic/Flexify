@@ -55,6 +55,12 @@
 
                     </div>
                     <div class="relative">
+                        @if (TempData["Error"] != null)
+                        {
+                            <div class="text-red-600 absolute text-danger top-[-22px]">
+                                @TempData["Error"]
+                            </div>
+                        }
                         <span asp-validation-for="Email" class="text-red-600 absolute text-danger top-[-22px]"></span>
                         <div class="bg-zinc-200 p-4 rounded-lg text-black  flex gap-3 ">
                            

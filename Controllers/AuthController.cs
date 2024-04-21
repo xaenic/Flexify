@@ -90,7 +90,13 @@ namespace Flexify.Controllers
             if(!ModelState.IsValid) {
                 return View();
             }
+            var userFound = dbContext.Users.FirstOrDefault(u => u.Email == user.Email);
 
+            if(userFound != null)
+            {
+                TempData["Error"] = "Email already exists";
+                return View();
+            }
             dbContext.Users.Add(user);
             await dbContext.SaveChangesAsync();
             TempData["Success"] = "Successfully Registered!";
