@@ -16,7 +16,12 @@
                     <h1 class="text-4xl font-bold text-center">Join Flexify</h1>
                     <p class="text-center text-slate-600">Sign up for free</p>
                 </div>
-               
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success">
+                        @TempData["Success"]
+                    </div>
+                }
                 <form asp-action="Register" method="post" class="md:mt-10 w-full flex flex-col gap-7 p-2">
                     <div class="grid grid-cols-2 gap-4 ">
                         <div class="relative">
@@ -41,19 +46,28 @@
 
                     </div>
                     <div class="relative">
-                        <span asp-validation-for="email" class="text-red-600 absolute text-danger top-[-22px]"></span>
+                        <span asp-validation-for="Username" class="text-red-600 absolute text-danger top-[-22px]"></span>
+                        <div class="bg-zinc-200 p-4 rounded-lg text-black  flex gap-3 ">
+
+                            <img src="/images/lock.svg" />
+                            <input asp-for="Username" type="text" placeholder="Username" class="w-full bg-transparent  outline-none border-none" />
+                        </div>
+
+                    </div>
+                    <div class="relative">
+                        <span asp-validation-for="Email" class="text-red-600 absolute text-danger top-[-22px]"></span>
                         <div class="bg-zinc-200 p-4 rounded-lg text-black  flex gap-3 ">
                            
                             <img src="/images/lock.svg" />
-                            <input asp-for="email" type="email"  placeholder="Email Address" class="w-full bg-transparent  outline-none border-none" />
+                            <input asp-for="Email" type="email"  placeholder="Email Address" class="w-full bg-transparent  outline-none border-none" />
                         </div>
 
                     </div>
                     <div class=" relative gap-4">
-                        <span asp-validation-for="password" class="text-red-600 absolute text-danger top-[-22px]"></span>
+                        <span asp-validation-for="Password" class="text-red-600 absolute text-danger top-[-22px]"></span>
                         <div class="bg-zinc-200 p-4 rounded-lg text-black flex gap-3">
                             <img src="/images/user.svg" />
-                            <input asp-for="password" type="password"  placeholder="Password" class="w-full bg-transparent  outline-none border-none" />
+                            <input asp-for="Password" type="password" placeholder="Password" class="w-full bg-transparent  outline-none border-none" />
                         </div>
                        
 
