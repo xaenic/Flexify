@@ -44,7 +44,7 @@
             <div
               class="shrink-0 bg-gray-700 w-24 h-24 rounded-full flex items-center justify-center text-white"
             >
-              K
+              @Model?.FirstName?[0]
             </div>
             <div class="w-full flex flex-col gap-4">
               <div
@@ -94,21 +94,20 @@
                 value="@Model.Email"
               />
             </div>
+                    <div class="">
+                        <span class="text-blue-500 text-sm">Enter password to save changes</span>
+                    </div>
             <div class="bg-gray-200 p-2 rounded-md flex flex-col items-start">
               <label class="text-xs">Enter Password</label>
               <input asp-for="Password"
-                type="text"
-                class="bg-transparent text-sm w-full"
+                type="password"
+                class="bg-transparent text-sm w-full outline-none"
                 value=""
                 placeholder=""
               />
-                        <span asp-validation-for="Password" class="text-red-600 absolute text-danger top-[-22px]"></span>
+                        <span asp-validation-for="Password"  class="text-red-600 absolute text-danger top-[-22px]"></span>
             </div>
-            <div class="">
-              <span class="text-blue-500 text-sm"
-                >Enter password to save changes</span
-              >
-            </div>
+            
             <div class="flex justify-end">
               <button class="bg-blue-500 text-white px-3 p-2 rounded-md">
                 Save Changes
@@ -120,7 +119,7 @@
                 <form asp-action="DeleteAccount" method="post">
                     <button type="submit" class="bg-red-500 text-white px-3 p-2 rounded-md">Delete Account</button>
                 </form>
-                <span class="text-blue-500 text-sm">Deleting your account is irreversible.</span>
+            
             </div>
       </div>
        

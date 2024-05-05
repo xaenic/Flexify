@@ -24,7 +24,52 @@
         </div>
     </nav>
 
-    <div class="max-w-4xl mx-auto flex justify-center mt-10">
-        <h1 class="font-semibold text-xl">Welcome @Model.FirstName @Model.LastName!</h1>
+    <div class="max-w-4xl gap-10 mx-auto flex flex-col justify-center mt-10">
+        <div class="bg-white shadow-sm w-full border p-5 flex flex-col gap-3 items-center bg-white rounded-lg">
+            <h1 class="font-medium">Lifetime Analytics</h1>
+            <ul class="flex items-center gap-4">
+                <li class="flex items-center gap-1 text-sm">
+                    <div class="h-2 w-2 bg-green-500 rounded-full text-green-500"></div>
+                    <span>Views: 21 </span>
+                </li>
+                 <li class="flex items-center gap-1 text-sm">
+                    <div class="h-2 w-2 bg-orange-500 rounded-full text-green-500"></div>
+                    <span>Clicks: 104 </span>
+                </li>
+                <li class="flex items-center gap-1 text-sm">
+                    <div class="h-2 w-2 bg-blue-500 rounded-full text-green-500"></div>
+                    <span>Links: 5</span>
+                </li>
+            </ul>
+        </div>
+        <section class="w-full flex flex-col gap-4 items-start self-start ">
+            <h1 class="font-medium">Top Performing Links</h1>
+            <div class="bg-white rounded-md p-5 border flex flex-col gap-4 w-full">
+                <div class="flex justify-between text-sm text-slate-600">
+                    <label></label>
+                    <span>Clicks</span>
+                </div>
+                <div class="justify-between flex items-center text-sm">
+                    <label>About Page</label>
+                    <span>500</span>
+                </div>
+                <div class="justify-between flex items-center text-sm">
+                    <label>Contact</label>
+                    <span>235</span>
+                </div>
+                <div class="justify-between flex items-center text-sm">
+                    <label>My Games</label>
+                    <span>340</span>
+                </div>
+                <div class="justify-between flex items-center text-sm">
+                    <label>Tiktok Shop</label>
+                    <span>500</span>
+                </div>
+                <div class="justify-between flex items-center text-sm">
+                    <label>Shopee Shop</label>
+                    <span>500</span>
+                </div>
+            </div>
+        </section>
     </div>
 </div>
