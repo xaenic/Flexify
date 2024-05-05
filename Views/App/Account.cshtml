@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Account";
 }
-<div>
+<div class="p-10">
     @await Component.InvokeAsync("NavbarMenu")
     <main class="w-full mt-10 mx-auto max-w-4xl">
       <div class="">
@@ -19,7 +19,7 @@
                     @TempData["Error"]
                 </div>
             }
-        <form asp-action="Account" method="post" class="border border-gray-200 p-5 rounded-md">
+        <form asp-action="Account" method="post" class="border border-gray-200 p-5 bg-white rounded-md">
           <div class="flex gap-4 items-center">
             <div
               class="shrink-0 bg-gray-700 w-24 h-24 rounded-full flex items-center justify-center text-white"
