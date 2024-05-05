@@ -1,0 +1,23 @@
+﻿@model IEnumerable<NavLinkModel>
+
+<nav class="mt-10 z-10 sticky inset-0 top-4 w-[95%] sm:w-[90%] mx-auto bg-gray-700 text-medium text-white flex justify-between gap-4 items-center rounded-full text-sm h-14 p-10 overflow-hidden max-w-4xl">
+    <div class="flex gap-4 items-center">
+        <a href="/app">Flexify</a>
+        <ul class="flex items-center gap-4   ">
+          
+            <li class="@("Appearance" ==  ViewData["Title"] as string
+            ? "bg-white rounded-xl text-gray-700 px-2 py-2" : "")"><a href="/app/appearance">Appearance</a></li>
+        </ul>
+    </div>
+    <div class="flex gap-2  items-center">
+        <span class="@("Account" ==  ViewData["Title"] as string
+            ? "bg-white rounded-xl text-gray-700 px-2 py-2" : "")">
+            <i class="fa-solid fa-gear "></i>
+            <a href="/app/account">Settings</a>
+        </span>
+        <span>
+            <i class="fa-solid fa-right-from-bracket "></i>
+            <a href="/auth/logout">Logout</a>
+        </span>
+    </div>
+</nav>

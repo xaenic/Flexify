@@ -32,6 +32,23 @@ namespace Flexify.Controllers
             }
             return View(user);
         }
+        public IActionResult Appearance()
+
+        {
+            ClaimsPrincipal claimUser = HttpContext.User;
+            var userClaim = claimUser.FindFirst("UserId");
+            int userId = 1;
+            UserModel? user = new UserModel();
+            if (userClaim != null)
+            {
+                if (int.TryParse(userClaim.Value, out userId))
+                {
+                    user = dbContext.Users.FirstOrDefault(u => u.Id == userId);
+                    return View(user);
+                }
+            }
+            return View(user);
+        }
         [HttpGet]
         public IActionResult Account()
         {
