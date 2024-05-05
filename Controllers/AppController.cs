@@ -39,15 +39,20 @@ namespace Flexify.Controllers
             var userClaim = claimUser.FindFirst("UserId");
             int userId = 1;
             UserModel? user = new UserModel();
+            PageModel[] pageModel = { new PageModel() };  
+            PageLayoutModel layoutModel = new PageLayoutModel();
+            Socials[] socials = { new Socials()};
+            AppearanceModel appearanceSettings = new AppearanceModel(user, pageModel, socials, layoutModel);
             if (userClaim != null)
             {
                 if (int.TryParse(userClaim.Value, out userId))
                 {
                     user = dbContext.Users.FirstOrDefault(u => u.Id == userId);
-                    return View(user);
+                    appearanceSettings = new AppearanceModel(user, pageModel, socials, layoutModel);
+                    return View(appearanceSettings);
                 }
             }
-            return View(user);
+            return View(appearanceSettings);
         }
         [HttpGet]
         public IActionResult Account()
