@@ -5,3 +5,27 @@
     font-family: "Poppins", sans-serif;
 
 }
+#oll::-webkit-scrollbar-thumb {
+    background-color: #2d3748; /* Color of the thumb */
+    width: 4px;
+}
+
+#oll::-webkit-scrollbar-track {
+    background-color: transparent; /* Color of the track */
+}
+
+#oll::-webkit-scrollbar-corner {
+    background-color: transparent; /* Color of the scrollbar corner */
+}
+
+/* Add border-radius after other properties */
+#oll,
+#oll::-webkit-scrollbar,
+#oll::-webkit-scrollbar-thumb,
+#oll::-webkit-scrollbar-track,
+#oll::-webkit-scrollbar-corner {
+    border-radius: 12px; /* Rounded corners */
+}
+#oll::-webkit-scrollbar {
+    width: 6px; /* Adjust the width of the scrollbar */
+}
