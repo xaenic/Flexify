@@ -5,6 +5,7 @@
     [email]     NVARCHAR (50) NULL,
     [password]  NVARCHAR (50) NULL,
     [username]  NVARCHAR (50) NULL,
+    [bio] NCHAR(90) NULL, 
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
