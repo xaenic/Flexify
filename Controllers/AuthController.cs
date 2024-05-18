@@ -27,7 +27,7 @@ namespace Flexify.Controllers
             ClaimsPrincipal claimUser = HttpContext.User;
 
 
-            if ( claimUser.Identity.IsAuthenticated)
+            if (claimUser.Identity.IsAuthenticated)
                 return RedirectToAction("", "App");
             return View();
         }
@@ -55,24 +55,24 @@ namespace Flexify.Controllers
                 TempData["Error"] = "Incorrect password";
                 return View(user); // Return the view with an error message
             }
-            
-            List<Claim> claims =  new List<Claim>() { 
+
+            List<Claim> claims = new List<Claim>() {
                 new Claim(ClaimTypes.NameIdentifier, userFound.Email),
                 new Claim("UserId", userFound.Id +""),
             };
 
-            ClaimsIdentity claimsIdentity =  new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             AuthenticationProperties properties = new AuthenticationProperties()
             {
                 AllowRefresh = true,
-                 IsPersistent = true,
+                IsPersistent = true,
             };
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity), properties
                 );
-            
+
 
             // Authentication successful, redirect to the home page
             return RedirectToAction("", "App");
@@ -87,12 +87,13 @@ namespace Flexify.Controllers
         [HttpPost]
         public async Task<ViewResult> Register(UserModel user)
         {
-            if(!ModelState.IsValid) {
+            if (!ModelState.IsValid)
+            {
                 return View();
             }
             var userFound = dbContext.Users.FirstOrDefault(u => u.Email == user.Email);
 
-            if(userFound != null)
+            if (userFound != null)
             {
                 TempData["Error"] = "Email already exists";
                 return View();
@@ -102,7 +103,7 @@ namespace Flexify.Controllers
             TempData["Success"] = "Successfully Registered!";
             ModelState.Clear();
             return View(new UserModel());
-           
+
         }
     }
 }
