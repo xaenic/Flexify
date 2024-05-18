@@ -15,23 +15,7 @@ namespace Flexify.Controllers
         {
             this.dbContext = dbContext;
         }
-        public IActionResult Index()
 
-        {
-            ClaimsPrincipal claimUser = HttpContext.User;
-            var userClaim = claimUser.FindFirst("UserId");
-            int userId = 1;
-            UserModel? user = new UserModel();
-            if (userClaim != null)
-            {
-                if (int.TryParse(userClaim.Value, out userId))
-                {
-                    user = dbContext.Users.FirstOrDefault(u => u.Id == userId);
-                    return View(user);
-                }
-            }
-            return View(user);
-        }
         public IActionResult Appearance()
 
         {
@@ -39,9 +23,9 @@ namespace Flexify.Controllers
             var userClaim = claimUser.FindFirst("UserId");
             int userId = 1;
             UserModel? user = new UserModel();
-            PageModel[] pageModel = { new PageModel() };  
+            PageModel[] pageModel = { new PageModel() };
             PageLayoutModel layoutModel = new PageLayoutModel();
-            Socials[] socials = { new Socials()};
+            Socials[] socials = { new Socials() };
             AppearanceModel appearanceSettings = new AppearanceModel(user, pageModel, socials, layoutModel);
             if (userClaim != null)
             {
@@ -64,7 +48,7 @@ namespace Flexify.Controllers
             int userId = 2;
             var userClaim = claimUser.FindFirst("UserId");
 
-            if(userClaim != null)
+            if (userClaim != null)
             {
                 if (int.TryParse(userClaim.Value, out userId))
                 {
@@ -72,8 +56,8 @@ namespace Flexify.Controllers
                     return View(user);
                 }
             }
-          
-        
+
+
             return NotFound();
         }
         [HttpPost]
@@ -106,13 +90,13 @@ namespace Flexify.Controllers
                 return NotFound();
             }
 
-            if(userUpdate.Password != user.Password)
+            if (userUpdate.Password != user.Password)
             {
                 TempData["Error"] = "Incorrect Password";
                 return View(user);
             }
 
-                
+
             userUpdate.FirstName = user.FirstName;
             userUpdate.LastName = user.LastName;
             userUpdate.Email = user.Email;
@@ -170,8 +154,49 @@ namespace Flexify.Controllers
             TempData["Success"] = "Deleted successfully!";
             return RedirectToAction("Logout", "Auth"); // Redirect to the home page or any other appropriate page
         }
+        [HttpPost]
+        public IActionResult EditBio(UserModel user)
+        {
+            ClaimsPrincipal claimUser = HttpContext.User;
+            var userClaim = claimUser.FindFirst("UserId");
 
+            int userId;
 
+            if (userClaim != null && int.TryParse(userClaim.Value, out userId))
+            {
+                var userToUpdate = dbContext.Users.FirstOrDefault(u => u.Id == userId);
 
+                if (userToUpdate == null)
+                {
+                    return NotFound();
+                }
+
+                userToUpdate.Bio = user.Bio;
+
+                TempData["Success"] = "Bio updated successfully!";
+                dbContext.SaveChanges();
+
+                return RedirectToAction("Index", "App");
+            }
+
+            return NotFound();
+        }
+        public IActionResult Index()
+
+    {
+        ClaimsPrincipal claimUser = HttpContext.User;
+        var userClaim = claimUser.FindFirst("UserId");
+        int userId = 1;
+        UserModel? user = new UserModel();
+        if (userClaim != null)
+        {
+            if (int.TryParse(userClaim.Value, out userId))
+            {
+                user = dbContext.Users.FirstOrDefault(u => u.Id == userId);
+                return View(user);
+            }
+        }
+        return View(user);
     }
-    }
+}
+}

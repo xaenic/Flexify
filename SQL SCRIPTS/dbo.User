@@ -9,3 +9,11 @@
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
+CREATE TABLE [dbo].[email]
+(
+    [Id] INT NOT NULL PRIMARY KEY, 
+    [email] NVARCHAR(50) NULL, 
+    [user_id] INT NULL,
+    [socialtype] INT NULL, 
+    FOREIGN KEY (user_id) REFERENCES [dbo].[users](id)
+);
