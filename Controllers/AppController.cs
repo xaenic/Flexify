@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Data.SqlClient;
 
 namespace Flexify.Controllers
 {
@@ -11,10 +12,13 @@ namespace Flexify.Controllers
     public class AppController : Controller
     {
         private readonly FlexifyDbContext dbContext;
+        private string connectionString;
+
         public AppController(FlexifyDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
+       
 
         public IActionResult Appearance()
 
@@ -198,5 +202,42 @@ namespace Flexify.Controllers
         }
         return View(user);
     }
-}
+
+        [HttpPost]
+        public IActionResult SubmitSocialMediaEmail([FromBody] SocialMediaEmailModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userExists = dbContext.Users.Any(u => u.Id == model.UserId);
+                if (!userExists)
+                {
+                    return Json(new { success = false, message = "User does not exist." });
+                }
+                var existingEntry = dbContext.email.FirstOrDefault(e => e.user_id == model.UserId && e.SocialType == model.SocialType);
+                if (existingEntry != null)
+                {
+ 
+                    existingEntry.emailsocial = model.Emails;
+                    dbContext.SaveChanges();
+
+                    return Json(new { success = true, message = "Email updated successfully!" });
+                }
+                var emailEntity = new Email
+                {
+                    emailsocial = model.Emails,
+                    user_id = model.UserId,
+                    SocialType = model.SocialType
+                };
+
+                dbContext.email.Add(emailEntity);
+                dbContext.SaveChanges();
+
+                return Json(new { success = true, message = "Email added successfully!" });
+            }
+            var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+            return Json(new { success = false, message = "Invalid data.", errors });
+        }
+
+
+    }
 }
