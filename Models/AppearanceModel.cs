@@ -12,6 +12,7 @@
             this.Layout = layout;
             this.Pages = pages;
             this.Socials = sociasl;
-        }    
+        }
+        
     }
 }

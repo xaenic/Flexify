@@ -68,54 +68,87 @@
                                         <span>&lt;</span>
                                     </button>
                                 <h3 id="socialMediaInputTitle" class="text-center p-5">Social Media Input</h3>
-                                <input type="text" id="socialMediaLinkInput" class="w-full border rounded-md px-4 py-2 mb-4" placeholder="Enter your link or email...">
-                                    <button id="submitSocialMediaInput" class="text-sm bg-[#3C153B] p-3 rounded-xl text-white w-15" onclick="submitSocialMediaInput()">Submit</button>
+                                    <input id="social" name="social" type="hidden" value="@Model?.User?.Id">
+                                    <input id="ids" name="ids" type="hidden" value="">
+                                    <input type="text" id="socialMediaNumerber" class="w-full border rounded-md px-4 py-2 mb-4" placeholder="Enter your link or email...">
+                                    <button id="submitSocialMediaInput" type="submit" class="text-sm bg-[#3C153B] p-3 rounded-xl text-white w-15">Submit</button>
                             </div>
 
-                        <script>
-                            //modal
-                            function openSocialMediaInputModal(socialMedia) {
-                                var modal = document.getElementById("socialMediaInputModal");
-                                var title = document.getElementById("socialMediaInputTitle");
-                                var input = document.getElementById("socialMediaLinkInput");
+                            <script>
+                                function openSocialMediaInputModal(socialMedia) {
+                                    var modal = document.getElementById("socialMediaInputModal");
+                                    var title = document.getElementById("socialMediaInputTitle");
+                                    var input = document.getElementById("socialMediaNumerber");
+                                    var ids = document.getElementById("ids");
 
-                                switch (socialMedia) {
-                                    case 'facebook':
-                                        title.textContent = "Enter Facebook Email";
-                                        input.placeholder = "Enter your Facebook email...";
-                                        break;
-                                            case 'tiktok':
-                                                title.textContent = "Enter Tiktok Email";
-                                                input.placeholder = "Enter your Facebook email...";
-                                                break;
-                                            case 'twitter':
-                                                title.textContent = "Enter Twitter Email";
-                                                input.placeholder = "Enter your Twitter email...";
-                                                break;
-                                            case 'github':
-                                                title.textContent = "Enter Github Email";
-                                                input.placeholder = "Enter your Github email...";
-                                                break;
-                                            case 'instagram':
-                                                title.textContent = "Enter Instagram Email";
-                                                input.placeholder = "Enter your Instagram email...";
-                                                break;
-                                    
-                                    default:
-                                        break;
+                                    switch (socialMedia) {
+                                        case 'facebook':
+                                            title.textContent = "Enter Facebook Username";
+                                                input.placeholder = "Enter your Facebook Username...";
+                                            ids.value = 1;
+                                            break;
+                                        case 'tiktok':
+                                                title.textContent = "Enter TikTok Username";
+                                                input.placeholder = "Enter your TikTok Username...";
+                                            ids.value = 2;
+                                            break;
+                                        case 'twitter':
+                                                title.textContent = "Enter Twitter Username";
+                                                input.placeholder = "Enter your Twitter Username...";
+                                            ids.value = 3;
+                                            break;
+                                        case 'github':
+                                                title.textContent = "Enter GitHub Username";
+                                                input.placeholder = "Enter your GitHub Username...";
+                                            ids.value = 4;
+                                            break;
+                                        case 'instagram':
+                                                title.textContent = "Enter Instagram Username";
+                                                input.placeholder = "Enter your Instagram Username...";
+                                            ids.value = 5;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+                                    modal.classList.remove("hidden");
                                 }
 
-                                modal.classList.remove("hidden");
-                            }
-
-                            function closeSocialMediaInputModal() {
-                                var modal = document.getElementById("socialMediaInputModal");
-                                modal.classList.add("hidden");
-                            }
-                            function submitSocialMediaInput() {
-                                closeSocialMediaInputModal();
+                                function closeSocialMediaInputModal() {
+                                    var modal = document.getElementById("socialMediaInputModal");
+                                    modal.classList.add("hidden");
                                 }
-                        </script>
+
+                                document.getElementById("submitSocialMediaInput").addEventListener("click", function () {
+                                    var email = document.getElementById("socialMediaNumerber").value;
+                                    var socialType = document.getElementById("ids").value;
+                                    var userId = document.getElementById("social").value;
+
+                                    var data = {
+                                            Emails: email,
+                                            UserId: @Model?.User?.Id,
+                                            SocialType: parseInt(socialType)
+                                    };
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/App/SubmitSocialMediaEmail",
+                                        data: JSON.stringify(data),
+                                        contentType: "application/json",
+                                        success: function (response) {
+                                            if (response.success) {
+                                                alert(response.message);
+                                                closeSocialMediaInputModal();
+                                            } else {
+                                                alert(response.message);
+                                            }
+                                        },
+                                        error: function () {
+                                            alert("An error occurred while submitting the email.");
+                                        }
+                                    });
+                                });
+                            </script>
 
 
 
