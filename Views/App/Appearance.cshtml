@@ -149,11 +149,11 @@
                                     });
                                 });
                             </script>
-
-
+                               
 
                         </div>
                             <div class="p-6">
+
                             <h3 class="text-center">Add icon Social</h3>
                                 <input type="text" id="searchInput" placeholder="Search..." class="w-full border rounded-md px-4 py-2 mb-4">
                                 <div class="flex flex-col justify-start p-5" id="socialButtons">
@@ -225,9 +225,44 @@
                     </script>
                 </div>
             </section>
+            <form asp-action="Theme" method="post">
+                <div class="flex gap-2 c">
+                    <select id="themeSelect" onchange="changeTheme(this.value)" class="theme-select rounded-md text-gray-700 text-sm font-medium transition-colors duration-200 ease-in-out">
+                        <option value="theme1">Theme 1 - Pure White</option>
+                        <option value="theme2">Theme 2 - Light Gray</option>
+                        <option value="theme3">Theme 3 - Medium Gray</option>
+                        <option value="theme4">Theme 4 - Dark Gray</option>
+                        <option value="theme5">Theme 5 - Charcoal Gray</option>
+                        <option value="theme6">Theme 6 - Facebook Blue</option>
+                        <option value="theme7">Theme 7 - Twitter Blue</option>
+                        <option value="theme8">Theme 8 - LinkedIn Blue</option>
+                        <option value="theme9">Theme 9 - Sky Blue</option>
+                        <option value="theme10">Theme 10 - Red</option>
+                    </select>
+                    <input id="userId" name="UserId" type="hidden" value="@Model?.User?.Id">
+                    <input type="hidden" id="selectedTheme" name="SelectedTheme" value="">
+                    <button type="submit" class="p-3 bg-[#DB4C40] text-white text-sm w-20 mt-4 rounded-md">Save Theme</button>
+                </form>
+            </div>
+        <div class="flex flex-col gap-4">
+            <label for="POST" class="block mb-2 text-sm text-gray-700">Post</label>
+            <form asp-action="Post" method="post">
+                <div class="bg-zinc-100 p-3 flex rounded-md text-sm text-sky-500">
+                    <textarea id="POST" name="post_content" type="text" class="text-xs w-full bg-transparent outline-none" placeholder="Write something..."></textarea>
+                </div>
+                <div class="flex justify-between items-center mt-4">
+                    <label for="image_upload" class="text-sm text-gray-700">Upload Image:</label>
+                    <input id="image_upload" name="image_upload" type="file" accept="image/*" class="hidden" />
+                    <button type="submit" class="p-3 bg-[#DB4C40] text-white text-sm rounded-md">Post</button>
+                </div>
+            </form>
         </div>
+
+        </div>
+        
+
         <div class="flex items-center justify-center p-10">
-            <div class="h-[620px] w-[316px]  rounded-[46px] border-gray-600 border-8 overflow-hidden p-5 pr-0 flex items-center flex-col ">
+            <div id="container" class="h-[620px] w-[316px]  rounded-[46px] border-gray-600 border-8 overflow-hidden p-5 pr-0 flex items-center flex-col ">
                 <div id="imageDisplay" class="imageDisplay ">
                     <div class="bg-gray-800 w-24 h-24 rounded-full text-white flex items-center justify-center text-4xl">
                         @Model?.User?.FirstName?[0]
@@ -289,5 +324,50 @@
                 reader.readAsDataURL(inputFile.files[0]);
             }
         });
-    });
+    }); function changeTheme(themeName) {
+        const container = document.getElementById('container');
+          document.getElementById('selectedTheme').value = themeName;
+        container.classList.remove('theme1', 'theme2', 'theme3', 'theme4', 'theme5', 'theme6', 'theme7', 'theme8', 'theme9', 'theme10');
+        container.classList.add(themeName);
+    }
 </script>
+<style>
+    .theme1 {
+        background-color: #ffffff; 
+    }
+
+    .theme2 {
+        background-color: #f2f2f2; 
+    }
+
+    .theme3 {
+        background-color: #d9d9d9; 
+    }
+
+    .theme4 {
+        background-color: #bfbfbf; 
+    }
+
+    .theme5 {
+        background-color: #a6a6a6;
+    }
+
+    .theme6 {
+        background-color: #3b5998; 
+    }
+
+    .theme7 {
+        background-color: #00acee; 
+    }
+
+    .theme8 {
+        background-color: #0077B5;
+    }
+
+    .theme9 {
+        background-color: #1DA1F2; 
+    }
+    .theme10 {
+        background-color: #FF0000; 
+    }
+</style>

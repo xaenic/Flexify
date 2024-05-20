@@ -237,6 +237,45 @@ namespace Flexify.Controllers
             var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
             return Json(new { success = false, message = "Invalid data.", errors });
         }
+        [HttpPost]
+
+        public IActionResult Theme(Theme model)
+        {
+            ClaimsPrincipal claimUser = HttpContext.User;
+            var userClaim = claimUser.FindFirst("UserId");
+            int userId = 1;
+            UserModel? user = new UserModel();
+            if (userClaim != null)
+            {
+                if (int.TryParse(userClaim.Value, out userId))
+                {
+                    user = dbContext.Users.FirstOrDefault(u => u.Id == userId);
+                }
+            }
+
+            if (ModelState.IsValid)
+            {
+                var existingTheme = dbContext.themes.FirstOrDefault(t => t.user_Id == userId);
+                if (existingTheme != null)
+                {
+                    existingTheme.SelectedTheme = model.SelectedTheme;
+                }
+                else
+                {
+                    var newTheme = new Theme
+                    {
+                        SelectedTheme = model.SelectedTheme,
+                        user_Id = userId
+                    };
+                    dbContext.themes.Add(newTheme);
+                }
+
+                dbContext.SaveChanges();
+
+                return RedirectToAction("Index", "App");
+            }
+            return View(model);
+        }
 
 
     }
