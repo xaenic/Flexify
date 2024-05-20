@@ -12,6 +12,7 @@ namespace Flexify.Components
             {
                 new NavLinkModel { Url = "/App", Name="Home", Controller="App"},
                 new NavLinkModel { Url = "/App/Appearance", Name="Appearance",Controller="App"},
+                new NavLinkModel { Url = "/App/Post", Name="Post", Controller = "App"},
                 new NavLinkModel { Url = "/App/Account", Name="Settings",Controller="App"},
                 new NavLinkModel { Url = "/auth/logout", Name="Logout", Controller = "Auth"},
             };
