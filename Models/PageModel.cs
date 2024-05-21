@@ -1,4 +1,6 @@
-﻿namespace Flexify.Models
+﻿using System.Security.Cryptography.X509Certificates;
+
+namespace Flexify.Models
 {
     public class PageModel
     {
@@ -8,5 +10,7 @@
         public string Title { get; set; }
         public string Description { get; set; }
         public string Url { get; set; }
+
+        public int Click { get; set; } = 0;
     }
 }
