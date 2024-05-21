@@ -30,13 +30,15 @@ namespace Flexify.Controllers
             PageModel[] pageModel = { new PageModel() };
             PageLayoutModel layoutModel = new PageLayoutModel();
             Socials[] socials = { new Socials() };
-            AppearanceModel appearanceSettings = new AppearanceModel(user, pageModel, socials, layoutModel);
+            PostModel[] post = new PostModel[0];
+            AppearanceModel appearanceSettings = new AppearanceModel(user, pageModel, socials, layoutModel, post);
             if (userClaim != null)
             {
                 if (int.TryParse(userClaim.Value, out userId))
                 {
                     user = dbContext.Users.FirstOrDefault(u => u.Id == userId);
-                    appearanceSettings = new AppearanceModel(user, pageModel, socials, layoutModel);
+                    var posts = dbContext.Posts.Where(p => p.UserId == userId).ToArray();
+                    appearanceSettings = new AppearanceModel(user, pageModel, socials, layoutModel, posts);
                     return View(appearanceSettings);
                 }
             }
@@ -276,7 +278,99 @@ namespace Flexify.Controllers
             }
             return View(model);
         }
+        [HttpPost]
+        public IActionResult UploadProfileImage(IFormFile profileImage)
+        {
+            ClaimsPrincipal claimUser = HttpContext.User;
+            var userClaim = claimUser.FindFirst("UserId");
 
+            if (userClaim == null || !int.TryParse(userClaim.Value, out int userId))
+            {
+                return Unauthorized();
+            }
+
+            var user = dbContext.Users.FirstOrDefault(u => u.Id == userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (profileImage != null && profileImage.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    profileImage.CopyTo(ms);
+                    user.ProfileImage = ms.ToArray();
+                }
+
+                dbContext.SaveChanges();
+            }
+
+            return Ok(new { message = "Profile image uploaded successfully" });
+        }
+
+        [HttpDelete]
+        public IActionResult RemoveProfileImage()
+        {
+            ClaimsPrincipal claimUser = HttpContext.User;
+            var userClaim = claimUser.FindFirst("UserId");
+
+            if (userClaim == null || !int.TryParse(userClaim.Value, out int userId))
+            {
+                return Unauthorized();
+            }
+
+            var user = dbContext.Users.FirstOrDefault(u => u.Id == userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.ProfileImage = null;
+            dbContext.SaveChanges();
+
+            return Ok(new { message = "Profile image removed successfully" });
+        }
+        [HttpPost]
+        public async Task<IActionResult> Post(string post_content, IFormFile image_upload)
+        {
+            if (string.IsNullOrWhiteSpace(post_content) && (image_upload == null || image_upload.Length == 0))
+            {
+                TempData["Error"] = "Post content or image is required.";
+                return RedirectToAction("Appearance");
+            }
+
+            ClaimsPrincipal claimUser = HttpContext.User;
+            var userClaim = claimUser.FindFirst("UserId");
+
+            if (userClaim != null && int.TryParse(userClaim.Value, out int userId))
+            {
+                var post = new PostModel
+                {
+                    Content = post_content,
+                    UserId = userId
+                };
+
+                if (image_upload != null && image_upload.Length > 0)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await image_upload.CopyToAsync(memoryStream);
+                        post.Image = memoryStream.ToArray();
+                    }
+                }
+
+                dbContext.Posts.Add(post);
+                await dbContext.SaveChangesAsync();
+                TempData["Success"] = "Post created successfully!";
+            }
+            else
+            {
+                TempData["Error"] = "User not found.";
+            }
+
+            return RedirectToAction("Appearance");
+        }
 
     }
 }
