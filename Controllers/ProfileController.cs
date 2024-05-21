@@ -20,13 +20,13 @@ namespace Flexify.Controllers
             }
 
             UserModel user = new UserModel();
-            PageLayoutModel layoutModel = new PageLayoutModel();
+            Theme theme = new Theme();
             Socials[] socials = { new Socials() };
             user = dbContext.Users.FirstOrDefault(u => u.Username == username);
             if (user == null) { return RedirectToAction("LandingPage", "Home"); }
             PostModel[] posts = dbContext.Posts.Where(p => p.UserId == user.Id).ToArray();
          
-            AppearanceModel appearance = new AppearanceModel(user, null, socials, layoutModel, posts);
+            AppearanceModel appearance = new AppearanceModel(user, null, socials, theme, posts);
 
             return View(appearance);
         }

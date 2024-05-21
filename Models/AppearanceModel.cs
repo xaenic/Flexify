@@ -5,13 +5,13 @@
         public UserModel User { get; set; }
         public PageModel[] Pages { get; set; }
         public Socials[] Socials { get; set; }
-        public PageLayoutModel Layout { get; set; }
+        public Theme theme { get; set; }
         public PostModel[] posts { get; set; }
 
-        public AppearanceModel(UserModel user, PageModel[] pages, Socials[] sociasl, PageLayoutModel layout, PostModel[] posts)
+        public AppearanceModel(UserModel user, PageModel[] pages, Socials[] sociasl, Theme theme, PostModel[] posts)
         {
             this.User = user;
-            this.Layout = layout;
+            this.theme = theme;
             this.Pages = pages;
             this.Socials = sociasl;
             this.posts = posts;

@@ -3,8 +3,8 @@
     public class Socials
     {
         public int Id { get; set; }
-        public string Icon { get; set; }  
-        public string Name { get; set; }    
-        public string Username { get; set; }    
+        public int user_id { get; set; }
+        public int SocialType { get; set; }  
+        public string emailsocial { get; set; }     
     }
 }

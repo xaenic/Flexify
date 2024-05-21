@@ -117,7 +117,15 @@
                 <h1 class="text-xl font-medium">Socials</h1>
                 <div>
                     <button type="button" class="text-sm bg-[#3C153B] p-3 rounded-xl text-white w-15" id="openModal">Add Social Media</button>
-
+                    @foreach (var social in Model.Socials)
+                    {
+                        <div class="post bg-white rounded-md p-4 my-4 shadow-md flex items-center">
+                           
+                            <div class="flex-1">
+                                <p class="text-gray-700">@social.emailsocial</p>
+                            </div>
+                        </div>
+                    }
                     <div id="myModal" class="modal fixed w-full h-full top-0 left-0 flex items-center justify-center hidden">
                         <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
                         <div class="modal-container bg-white w-1/2 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto p-6">
