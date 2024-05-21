@@ -13,8 +13,10 @@ namespace Flexify.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string username)
         {
+
+
             return View();
         }
 

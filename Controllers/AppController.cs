@@ -278,6 +278,10 @@ namespace Flexify.Controllers
             }
             return View(model);
         }
+
+
+
+
         [HttpPost]
         public IActionResult UploadProfileImage(IFormFile profileImage)
         {

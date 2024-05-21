@@ -6,7 +6,7 @@
 
 <div class="p-10 bg-slate-100">
     @await Component.InvokeAsync("NavbarMenu")
-    <div class="grid grid-cols-3">
+    <div class="grid grid-cols-3 items-start">
         <div class="col-span-2 p-10 flex flex-col gap-10">
             <section>
                 <h1 class="font-medium text-xl mb-2">Profile</h1>
@@ -293,8 +293,8 @@
                 </div>
             </section>
             <form asp-action="Theme" method="post">
-                <div class="flex gap-2 c">
-                    <select id="themeSelect" onchange="changeTheme(this.value)" class="theme-select rounded-md text-gray-700 text-sm font-medium transition-colors duration-200 ease-in-out">
+                <div class="flex gap-2 items-center justify-between ">
+                    <select id="themeSelect" onchange="changeTheme(this.value)" class="w-full p-4 theme-select rounded-md text-gray-700 text-sm font-medium transition-colors duration-200 ease-in-out">
                         <option value="theme1">Theme 1 - Pure White</option>
                         <option value="theme2">Theme 2 - Light Gray</option>
                         <option value="theme3">Theme 3 - Medium Gray</option>
@@ -308,18 +308,19 @@
                     </select>
                     <input id="userId" name="UserId" type="hidden" value="@Model?.User?.Id">
                     <input type="hidden" id="selectedTheme" name="SelectedTheme" value="">
-                    <button type="submit" class="p-3 bg-[#DB4C40] text-white text-sm w-20 mt-4 rounded-md">Save Theme</button>
+                    <button type="submit" class="p-3 bg-[#DB4C40] text-white text-sm   rounded-md shrink-0">Save Theme</button>
+                </div>
                 </form>
-            </div>
+           
         <div class="profile">
-            <h1>@Model.User.FirstName @Model.User.LastName</h1>
+            <h1 class="mb-3">Write A Post</h1>
 
             <form asp-action="Post" method="post" enctype="multipart/form-data">
-                <div class="bg-zinc-100 p-3 flex rounded-md text-sm text-sky-500">
-                    <textarea id="POST" name="post_content" type="text" class="text-xs w-full bg-transparent outline-none" placeholder="Write something..."></textarea>
+                <div class="bg-white  p-3 flex rounded-md text-sm text-sky-500">
+                    <textarea id="POST" name="post_content" cols="50" rows="10" type="text" class="text-xs w-full bg-transparent outline-none" placeholder="Write something..."></textarea>
                 </div>
                 <div class="flex justify-between items-center mt-4">
-                    <label for="image_upload" class="text-sm text-gray-700 cursor-pointer">Upload Image:</label>
+                    <label for="image_upload" class="text-sm bg-[#3C153B] p-3 text-white cursor-pointer rounded-md">Upload Image:</label>
                     <input id="image_upload" name="image_upload" type="file" accept="image/*" class="hidden" />
                     <button type="submit" class="p-3 bg-[#DB4C40] text-white text-sm rounded-md">Post</button>
                 </div>
