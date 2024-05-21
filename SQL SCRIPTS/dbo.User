@@ -1,19 +1,54 @@
-﻿CREATE TABLE [dbo].[users] (
-    [Id]        INT           IDENTITY (1, 1) NOT NULL,
-    [firstName] NVARCHAR (50) NULL,
-    [lastName]  NVARCHAR (50) NULL,
-    [email]     NVARCHAR (50) NULL,
-    [password]  NVARCHAR (50) NULL,
-    [username]  NVARCHAR (50) NULL,
-    [bio] NCHAR(90) NULL, 
+﻿CREATE TABLE [dbo].[email] (
+    [Id]          INT           IDENTITY (1, 1) NOT NULL,
+    [emailsocial] NVARCHAR (50) NULL,
+    [user_id]     INT           NULL,
+    [socialtype]  INT           NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC),
+    FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([Id])
+);
+CREATE TABLE [dbo].[page] (
+    [Id]          INT            IDENTITY (1, 1) NOT NULL,
+    [UserId]      INT            NULL,
+    [Title]       NVARCHAR (MAX) NULL,
+    [Description] NVARCHAR (MAX) NULL,
+    [Url]         NVARCHAR (MAX) NULL,
+    [click]       INT            NULL,
+    FOREIGN KEY ([UserId]) REFERENCES [dbo].[users] ([Id])
+);
+CREATE TABLE [dbo].[Posts] (
+    [Id]      INT             IDENTITY (1, 1) NOT NULL,
+    [Content] NVARCHAR (MAX)  NULL,
+    [Image]   VARBINARY (MAX) NULL,
+    [UserId]  INT             NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC),
+    FOREIGN KEY ([UserId]) REFERENCES [dbo].[users] ([Id])
+);
+
+CREATE TABLE [dbo].[socials] (
+    [Id]          INT           IDENTITY (1, 1) NOT NULL,
+    [emailsocial] NVARCHAR (50) NULL,
+    [user_id]     INT           NULL,
+    [socialtype]  INT           NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC),
+    FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([Id])
+);
+
+CREATE TABLE [dbo].[themes] (
+    [Id]            INT           IDENTITY (1, 1) NOT NULL,
+    [SelectedTheme] NVARCHAR (50) NULL,
+    [user_id]       INT           NULL,
+    FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([Id])
+);
+
+CREATE TABLE [dbo].[users] (
+    [Id]           INT             IDENTITY (1, 1) NOT NULL,
+    [firstName]    NVARCHAR (50)   NULL,
+    [lastName]     NVARCHAR (50)   NULL,
+    [email]        NVARCHAR (50)   NULL,
+    [password]     NVARCHAR (50)   NULL,
+    [username]     NVARCHAR (50)   NULL,
+    [bio]          NCHAR (90)      NULL,
+    [ProfileImage] VARBINARY (MAX) NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
-CREATE TABLE [dbo].[email]
-(
-    [Id] INT NOT NULL PRIMARY KEY, 
-    [email] NVARCHAR(50) NULL, 
-    [user_id] INT NULL,
-    [socialtype] INT NULL, 
-    FOREIGN KEY (user_id) REFERENCES [dbo].[users](id)
-);

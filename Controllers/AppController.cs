@@ -27,11 +27,11 @@ namespace Flexify.Controllers
             var userClaim = claimUser.FindFirst("UserId");
             int userId = 1;
             UserModel? user = new UserModel();
-            PageModel[] pageModel = { new PageModel() };
             Theme theme = new Theme();
             Socials[] socials = { new Socials() };
             PostModel[] post = new PostModel[0];
-            AppearanceModel appearanceSettings = new AppearanceModel(user, pageModel, socials, theme, post);
+            PageModel[] page = new PageModel[0];
+            AppearanceModel appearanceSettings = new AppearanceModel(user, page , socials, theme, post);
             if (userClaim != null)
             {
                 if (int.TryParse(userClaim.Value, out userId))
@@ -39,7 +39,8 @@ namespace Flexify.Controllers
                     user = dbContext.Users.FirstOrDefault(u => u.Id == userId);
                     var posts = dbContext.Posts.Where(p => p.UserId == userId).ToArray();
                     socials = dbContext.Socials.Where(p => p.user_id == userId).ToArray();
-                    appearanceSettings = new AppearanceModel(user, pageModel, socials, theme, posts);
+                    page = dbContext.page.Where(p => p.UserId == userId).ToArray();
+                    appearanceSettings = new AppearanceModel(user, page, socials, theme, posts);
                     return View(appearanceSettings);
                 }
             }
@@ -204,7 +205,7 @@ namespace Flexify.Controllers
             }
         }
         return View(user);
-    }
+        }
 
         [HttpPost]
         public IActionResult SubmitSocialMediaEmail([FromBody] SocialMediaEmailModel model)
@@ -219,7 +220,7 @@ namespace Flexify.Controllers
                 var existingEntry = dbContext.Socials.FirstOrDefault(e => e.user_id == model.UserId && e.SocialType == model.SocialType);
                 if (existingEntry != null)
                 {
- 
+
                     existingEntry.emailsocial = model.Emails;
                     dbContext.SaveChanges();
 
@@ -240,6 +241,33 @@ namespace Flexify.Controllers
             var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
             return Json(new { success = false, message = "Invalid data.", errors });
         }
+        [HttpPost]
+        public IActionResult DeleteSocialMediaEmail([FromBody] SocialMediaEmailModel model)
+        {
+            if (model == null || model.Id <= 0)
+            {
+                return Json(new { success = false, message = "Invalid data." });
+            }
+
+            var userExists = dbContext.Users.Any(u => u.Id == model.UserId);
+            if (!userExists)
+            {
+                return Json(new { success = false, message = "User does not exist." });
+            }
+
+            var socialMediaEmail = dbContext.Socials.FirstOrDefault(e => e.Id == model.Id && e.user_id == model.UserId && e.SocialType == model.SocialType);
+            if (socialMediaEmail == null)
+            {
+                return Json(new { success = false, message = "Email entry not found." });
+            }
+
+            dbContext.Socials.Remove(socialMediaEmail);
+            dbContext.SaveChanges();
+
+            return Json(new { success = true, message = "Email deleted successfully!" });
+        }
+
+
         [HttpPost]
 
         public IActionResult Theme(Theme model)
@@ -376,6 +404,54 @@ namespace Flexify.Controllers
 
             return RedirectToAction("Appearance");
         }
+        [HttpPost]
+        public async Task<IActionResult> DeletePost(int id)
+        {
+            var post = await dbContext.Posts.FindAsync(id);
+            if (post == null)
+            {
+                TempData["Error"] = "Post not found.";
+            }
+            else
+            {
+                dbContext.Posts.Remove(post);
+                await dbContext.SaveChangesAsync();
+                TempData["Success"] = "Post deleted successfully!";
+            }
 
+            return RedirectToAction("Appearance");
+        }
+        [HttpPost]
+        public IActionResult AddContent(PageModel page)
+        {
+            if (ModelState.IsValid)
+            {
+             
+                dbContext.page.Add(page);
+                dbContext.SaveChanges();
+
+                TempData["Success"] = "Content added successfully!";
+                return RedirectToAction("Index", "App");
+            }
+            else
+            {
+                return View(page);
+            }
+        }
+        [HttpPost]
+        public IActionResult DeletePage(int pageId)
+        {
+            var page = dbContext.page.FirstOrDefault(p => p.Id == pageId);
+            if (page == null)
+            {
+                return NotFound();
+            }
+
+            dbContext.page.Remove(page);
+            dbContext.SaveChanges();
+
+            TempData["Success"] = "Page deleted successfully!";
+            return RedirectToAction("Appearance");
+        }
     }
 }
