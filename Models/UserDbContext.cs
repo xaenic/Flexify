@@ -15,6 +15,7 @@ namespace Flexify.Models
         }
 
         public DbSet<UserModel> Users { get; set; }
+        public DbSet<CountsModel> Counts { get; set; }
         public DbSet<Socials> Socials { get; set; }
         public object Emails { get; internal set; }
         public DbSet<Theme> themes { get; set; }

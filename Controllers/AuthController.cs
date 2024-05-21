@@ -120,6 +120,13 @@ namespace Flexify.Controllers
             dbContext.themes.Add(newTheme);
             dbContext.SaveChanges();
 
+            var count = new CountsModel
+            {
+                views = 0,
+                user_id = user.Id,
+            };
+            dbContext.Counts.Add(count);
+            dbContext.SaveChanges();
            
             return View(new UserModel());
 

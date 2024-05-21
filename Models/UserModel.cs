@@ -18,5 +18,7 @@ namespace Flexify.Models
         public string? Bio { get; set; }
         public byte[]? ProfileImage { get; set; }
 
+
+
     }
 }
