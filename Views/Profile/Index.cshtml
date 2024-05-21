@@ -1,0 +1,25 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model AppearanceModel
+@{
+}
+
+<div class="container bg-slate-100 w-full h-screen flex flex-col items-center">
+    <div class="bg-white w-[600px] h-full p-10 flex flex-col items-center">
+        @if (Model.User?.ProfileImage != null)
+        {
+            <div class="overflow-hidden rounded-full">
+                <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.User?.ProfileImage)" class="w-24 h-24 object-cover" />
+            </div>
+        }
+        else
+        {
+            <div class="bg-gray-800 w-24 h-24 rounded-full text-white flex items-center justify-center text-4xl">
+                @Model.FirstName?[0]
+            </div>
+        }
+        <h1>@Model.User.Username</h1>
+        <h1>@Model.User.Bio</h1>
+    </div>
+</div>

@@ -28,17 +28,18 @@ namespace Flexify.Controllers
             int userId = 1;
             UserModel? user = new UserModel();
             PageModel[] pageModel = { new PageModel() };
-            PageLayoutModel layoutModel = new PageLayoutModel();
+            Theme theme = new Theme();
             Socials[] socials = { new Socials() };
             PostModel[] post = new PostModel[0];
-            AppearanceModel appearanceSettings = new AppearanceModel(user, pageModel, socials, layoutModel, post);
+            AppearanceModel appearanceSettings = new AppearanceModel(user, pageModel, socials, theme, post);
             if (userClaim != null)
             {
                 if (int.TryParse(userClaim.Value, out userId))
                 {
                     user = dbContext.Users.FirstOrDefault(u => u.Id == userId);
                     var posts = dbContext.Posts.Where(p => p.UserId == userId).ToArray();
-                    appearanceSettings = new AppearanceModel(user, pageModel, socials, layoutModel, posts);
+                    socials = dbContext.Socials.Where(p => p.user_id == userId).ToArray();
+                    appearanceSettings = new AppearanceModel(user, pageModel, socials, theme, posts);
                     return View(appearanceSettings);
                 }
             }
@@ -215,7 +216,7 @@ namespace Flexify.Controllers
                 {
                     return Json(new { success = false, message = "User does not exist." });
                 }
-                var existingEntry = dbContext.email.FirstOrDefault(e => e.user_id == model.UserId && e.SocialType == model.SocialType);
+                var existingEntry = dbContext.Socials.FirstOrDefault(e => e.user_id == model.UserId && e.SocialType == model.SocialType);
                 if (existingEntry != null)
                 {
  
@@ -224,14 +225,14 @@ namespace Flexify.Controllers
 
                     return Json(new { success = true, message = "Email updated successfully!" });
                 }
-                var emailEntity = new Email
+                var emailEntity = new Socials
                 {
                     emailsocial = model.Emails,
                     user_id = model.UserId,
                     SocialType = model.SocialType
                 };
 
-                dbContext.email.Add(emailEntity);
+                dbContext.Socials.Add(emailEntity);
                 dbContext.SaveChanges();
 
                 return Json(new { success = true, message = "Email added successfully!" });
@@ -278,6 +279,10 @@ namespace Flexify.Controllers
             }
             return View(model);
         }
+
+
+
+
         [HttpPost]
         public IActionResult UploadProfileImage(IFormFile profileImage)
         {
