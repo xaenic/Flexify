@@ -98,10 +98,29 @@ namespace Flexify.Controllers
                 TempData["Error"] = "Email already exists";
                 return View();
             }
+            userFound = dbContext.Users.FirstOrDefault(u => u.Username == user.Username);
+
+            if (userFound != null)
+            {
+                TempData["Error"] = "Username already exists";
+                return View();
+            }
+
             dbContext.Users.Add(user);
             await dbContext.SaveChangesAsync();
+
             TempData["Success"] = "Successfully Registered!";
             ModelState.Clear();
+
+            var newTheme = new Theme
+            {
+                SelectedTheme = "theme1",
+                user_Id = user.Id
+            };
+            dbContext.themes.Add(newTheme);
+            dbContext.SaveChanges();
+
+           
             return View(new UserModel());
 
         }
