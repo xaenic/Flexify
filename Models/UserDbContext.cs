@@ -19,5 +19,6 @@ namespace Flexify.Models
         public object Emails { get; internal set; }
         public DbSet<Theme> themes { get; set; }
         public DbSet<PostModel> Posts { get; set; }
+        public DbSet<PageModel> page { get; set; }
     }
 }

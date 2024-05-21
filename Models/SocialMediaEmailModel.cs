@@ -1,6 +1,7 @@
 ﻿
 public class SocialMediaEmailModel
 {
+    public int Id { get; set; }
     public string? Emails { get; set; }
     public int UserId { get; set; }
     public int SocialType { get; set; }
