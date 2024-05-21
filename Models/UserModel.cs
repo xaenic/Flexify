@@ -16,6 +16,7 @@ namespace Flexify.Models
         [Required(ErrorMessage = "Please enter your password.")]
         public string? Password { get; set; }
         public string? Bio { get; set; }
-       
+        public byte[]? ProfileImage { get; set; }
+
     }
 }

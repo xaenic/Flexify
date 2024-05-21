@@ -1,4 +1,5 @@
 ﻿@model AppearanceModel
+
 @{
     ViewData["Title"] = "Appearance";
 }
@@ -12,10 +13,19 @@
                 <div class="p-10 bg-white rounded-md min-w-[720px]">
                    <div class="flex items-center gap-3">
                         <div id="imageDisplay" class="imageDisplay">
-                            <div class="bg-gray-800 w-24 h-24 rounded-full text-white flex items-center justify-center text-4xl">
-                                @Model.User.FirstName?[0]
-                            </div>
-                       </div>
+                            @if (Model.User?.ProfileImage != null)
+                            {
+                                <div class="overflow-hidden rounded-full">
+                                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.User?.ProfileImage)" class="w-24 h-24 object-cover" />
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="bg-gray-800 w-24 h-24 rounded-full text-white flex items-center justify-center text-4xl">
+                                    @Model.FirstName?[0]
+                                </div>
+                            }
+                        </div>
                         
                         <div class="flex flex-col gap-3">
                             <div>
@@ -29,7 +39,64 @@
                             </div>
                             <button id="remove" class="text-sm bg-[#3C153B] p-3 rounded-xl text-white w-full">Remove Image</button>
                         </div>
-                        
+                        <script>
+                            $(document).ready(function () {
+                                $("#remove").click(async function () {
+                                    try {
+                                        const response = await fetch('/App/RemoveProfileImage', {
+                                            method: 'DELETE'
+                                        });
+
+                                        if (response.ok) {
+                                            const html = '<div class="bg-gray-800 w-24 h-24 rounded-full text-white flex items-center justify-center text-4xl">@Model?.User.FirstName?[0]</div>';
+                                            $('.imageDisplay').html(html);
+                                            $('#imageInput').val(null);
+                                        } else {
+                                            console.error('Failed to remove image');
+                                        }
+                                    } catch (error) {
+                                        console.error('Error removing image:', error);
+                                    }
+                                });
+
+                                $('#username').on('input', function (event) {
+                                    $('.username').html("@@" + this.value);
+                                });
+
+                                $('#bio').on('input', function (event) {
+                                    $('.bio').html(this.value);
+                                });
+
+                                $('#imageInput').on('input', function (event) {
+                                    var inputFile = event.target;
+                                    if (inputFile.files && inputFile.files[0]) {
+                                        var reader = new FileReader();
+                                        reader.onload = function (e) {
+                                            const image = `<div class="overflow-hidden rounded-full"><img src="${e.target.result}" class="w-24 h-24 object-cover" /></div>`;
+                                            $('.imageDisplay').html(image);
+                                        };
+                                        reader.readAsDataURL(inputFile.files[0]);
+
+                                        // Upload the image
+                                        var formData = new FormData();
+                                        formData.append('profileImage', inputFile.files[0]);
+
+                                        fetch('/App/UploadProfileImage', {
+                                            method: 'POST',
+                                            body: formData
+                                        }).then(response => {
+                                            if (response.ok) {
+                                                console.log('Image uploaded successfully');
+                                            } else {
+                                                console.error('Failed to upload image');
+                                            }
+                                        }).catch(error => {
+                                            console.error('Error uploading image:', error);
+                                        });
+                                    }
+                                });
+                            });
+                        </script>
                    </div>
                     <div class="mt-10 flex flex-col gap-4">
                         <div class="flex flex-col">
@@ -244,31 +311,54 @@
                     <button type="submit" class="p-3 bg-[#DB4C40] text-white text-sm w-20 mt-4 rounded-md">Save Theme</button>
                 </form>
             </div>
-        <div class="flex flex-col gap-4">
-            <label for="POST" class="block mb-2 text-sm text-gray-700">Post</label>
-            <form asp-action="Post" method="post">
+        <div class="profile">
+            <h1>@Model.User.FirstName @Model.User.LastName</h1>
+
+            <form asp-action="Post" method="post" enctype="multipart/form-data">
                 <div class="bg-zinc-100 p-3 flex rounded-md text-sm text-sky-500">
                     <textarea id="POST" name="post_content" type="text" class="text-xs w-full bg-transparent outline-none" placeholder="Write something..."></textarea>
                 </div>
                 <div class="flex justify-between items-center mt-4">
-                    <label for="image_upload" class="text-sm text-gray-700">Upload Image:</label>
+                    <label for="image_upload" class="text-sm text-gray-700 cursor-pointer">Upload Image:</label>
                     <input id="image_upload" name="image_upload" type="file" accept="image/*" class="hidden" />
                     <button type="submit" class="p-3 bg-[#DB4C40] text-white text-sm rounded-md">Post</button>
                 </div>
             </form>
-        </div>
+            <div id="posts" class="mt-6">
+                @foreach (var post in Model.posts)
+                {
+                    <div class="post bg-white rounded-md p-4 my-4 shadow-md flex items-center">
+                        @if (post.Image != null)
+                        {
+                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(post.Image)" class="h-[100px] w-[100px] rounded-md mr-4" />
+                        }
+                        <div class="flex-1">
+                            <p class="text-gray-700">@post.Content</p>
+                        </div>
+                    </div>
+                }
+            </div>
+           
 
         </div>
-        
+       </div>
 
         <div class="flex items-center justify-center p-10">
             <div id="container" class="h-[620px] w-[316px]  rounded-[46px] border-gray-600 border-8 overflow-hidden p-5 pr-0 flex items-center flex-col ">
-                <div id="imageDisplay" class="imageDisplay ">
-                    <div class="bg-gray-800 w-24 h-24 rounded-full text-white flex items-center justify-center text-4xl">
-                        @Model?.User?.FirstName?[0]
+            <div id="imageDisplay" class="imageDisplay">
+                @if (Model.User?.ProfileImage != null)
+                {
+                    <div class="overflow-hidden rounded-full">
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.User?.ProfileImage)" class="w-24 h-24 object-cover" />
                     </div>
-                    
-                </div>
+                }
+                else
+                {
+                    <div class="bg-gray-800 w-24 h-24 rounded-full text-white flex items-center justify-center text-4xl">
+                        @Model.FirstName?[0]
+                    </div>
+                }
+            </div>
                 <div class="flex justify-center flex-col items-center mt-2 gap-2">
                     <span class="username text-center text-xs w-full">@@@Model?.User?.Username</span>
                     <p class="bio text-center text-xs w-full italic">@Model?.User?.Bio</p>
@@ -286,13 +376,25 @@
                     <div class="bg-gray-300 text-gray-700 hover:bg-slate-200 transition-colors duration-200 rounded-lg cursor-pointer px-3 p-1">Exhibits</div>
                     <div class=" bg-white text-gray-700 hover:bg-slate-200 transition-colors duration-200 rounded-lg cursor-pointer px-3 p-1">Pages</div>
                 </div>
-                <div id="oll" class=" grid grid-cols-3 w-full border-gray-300 pt-2 gap-2 mt-2 overflow-y-auto max-h-[450px] overflow-x-hidden tabs ">
-                    <div class="animate-pulse bg-gray-300 shadow-sm w-20 h-24 rounded-lg"></div>
-                    <div class="animate-pulse bg-gray-300 shadow-sm w-20 h-24 rounded-lg"></div>
-                    <div class="animate-pulse bg-gray-300 shadow-sm w-20 h-24 rounded-lg"></div>
-                    
+            <div id="oll" class="border border-gray-300 rounded-md w-full p-4 mt-2 overflow-y-auto max-h-[450px] overflow-x-hidden tabs">
+                <div id="posts">
+                    @foreach (var post in Model.posts)
+                    {
+                        <div class="post bg-white rounded-md p-4 my-4 shadow-md">
+                            @if (post.Image != null)
+                            {
+                                <img src="data:image/jpeg;base64,@Convert.ToBase64String(post.Image)" class="h-[100px] w-[100px] rounded-md mb-4" />
+                            }
+                            <div>
+                                <p class="text-gray-700">@post.Content</p>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
+
+
+    
         </div>
     </div>
 </div>
@@ -300,31 +402,8 @@
 
 <script>
 
-    $(document).ready(function () {
-
-        $("#remove").click(function() {
-            const html ='<div class="bg-gray-800 w-24 h-24 rounded-full text-white flex items-center justify-center text-4xl">@Model?.User.FirstName?[0]</div>'
-            $('.imageDisplay').html(html);
-            $('#imageInput').val(null);
-        })
-        $('#username').on('input', function (event) {
-            $('.username').html("@@"+this.value);
-        })
-        $('#bio').on('input', function (event) {
-            $('.bio').html(this.value);
-        })
-        $('#imageInput').on('input', function (event) {
-            var inputFile = event.target;
-            if (inputFile.files && inputFile.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    const image = `<div class=" overflow-hidden rounded-full"><img src="${e.target.result}" class="w-24 h-24 object-cover" /></div>`
-                    $('.imageDisplay').html(image);
-                }
-                reader.readAsDataURL(inputFile.files[0]);
-            }
-        });
-    }); function changeTheme(themeName) {
+    
+function changeTheme(themeName) {
         const container = document.getElementById('container');
           document.getElementById('selectedTheme').value = themeName;
         container.classList.remove('theme1', 'theme2', 'theme3', 'theme4', 'theme5', 'theme6', 'theme7', 'theme8', 'theme9', 'theme10');

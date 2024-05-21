@@ -1,5 +1,6 @@
 ﻿using Flexify.Controllers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 namespace Flexify.Models
 {
     public class FlexifyDbContext : DbContext
@@ -17,5 +18,6 @@ namespace Flexify.Models
         public DbSet<Email> email { get; set; }
         public object Emails { get; internal set; }
         public DbSet<Theme> themes { get; set; }
+        public DbSet<PostModel> Posts { get; set; }
     }
 }
